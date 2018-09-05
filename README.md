@@ -36,7 +36,7 @@ const local = require('pup-local');
 ```
 
 
-### example save
+### example load
 ```javascript
 const puppeteer = require('puppeteer');
 const local = require('pup-local');

@@ -1,6 +1,6 @@
 {
   "name": "pup-local",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "saves / loads the localStorage from the browser in a json file",
   "main": "index.js",
   "scripts": {

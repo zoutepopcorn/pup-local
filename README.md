@@ -1,26 +1,63 @@
-# pup-face
-Just a simple tool to save / load the localstorage with Puppeteer.
+# pup-local
+Just a simple tool for localstorage with Puppeteer.
 
-# save
+### what will it do?
+It will save the localStorage from a site to myFile.json
+
+### functions to save and read
 ```javascript
-    await local.saveLocalStorage(page, `${__dirname}/local.json`);
-```
-
-
-# loade
-```javascript
+    await local.saveLocalStorage(page, `${__dirname}/local.json`); 
     await local.restoreLocalStorage(page, `${__dirname}/local.json`);
 ```
 
+### example save
+```javascript
+const puppeteer = require('puppeteer');
+const local = require('pup-local');
 
+(async() => {
+    console.log(local.storage);
+    const sleep = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    const browser = await puppeteer.launch({
+        headless: false,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+    await page.setViewport({width: 1920, height: 1200})
+    await page.goto('https://html5demos.com/storage/', {waitUntil: 'networkidle2'});
 
-# what will it do?
-It will save the localStorage from a site to local.json
+    await sleep(15000); // some time to see if localstorage is there
 
-# why?
-you could export your localStorage after a login, and reload them at next visit.
-
-# run
+    await local.saveLocalStorage(page, `${__dirname}/local.json`);
+    browser.close();
+})();
 ```
-node index
+
+
+### example save
+```javascript
+const puppeteer = require('puppeteer');
+const local = require('pup-local');
+
+(async() => {
+    console.log(local.storage);
+    const sleep = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    const browser = await puppeteer.launch({
+        headless: false,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    const page = await browser.newPage();
+    await page.setViewport({width: 1920, height: 1200})
+    await page.goto('https://html5demos.com/storage/', {waitUntil: 'networkidle2'});
+    await local.restoreLocalStorage(page, `${__dirname}/local.json`);
+    page.reload();
+    await sleep(15000); // some time to watch your local storage
+    browser.close();
+})();
 ```
+
+
